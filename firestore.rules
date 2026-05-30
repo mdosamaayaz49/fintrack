@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    function isValidTransaction() {
+      let d = request.resource.data;
+      return d.keys().hasAll(['type', 'amount', 'category', 'date', 'createdAt'])
+        && d.amount is number && d.amount > 0
+        && d.type in ['income', 'expense'];
+    }
+
+    function isValidBudget() {
+      let d = request.resource.data;
+      return d.keys().hasAll(['category', 'limit', 'month'])
+        && d.limit is number && d.limit > 0;
+    }
+
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    match /users/{userId}/transactions/{id} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidTransaction();
+      allow delete: if isOwner(userId);
+    }
+
+    match /users/{userId}/budgets/{id} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidBudget();
+      allow delete: if isOwner(userId);
+    }
+
+    // monthlyStats is written only by Cloud Functions — clients can only read
+    match /users/{userId}/monthlyStats/{month} {
+      allow read: if isOwner(userId);
+      allow write: if false;
+    }
+  }
+}

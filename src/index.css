@@ -1,0 +1,157 @@
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+@plugin "@tailwindcss/forms";
+
+/* ── FinTrack Design Tokens (shadcn/ui base-nova + Tailwind v4) ─────────── */
+@theme {
+  /* Brand: deep finance-green derived from theme_color "#0f6e56" */
+  --color-primary: hsl(162 73% 24%);
+  --color-primary-foreground: hsl(0 0% 98%);
+
+  --color-background: hsl(0 0% 100%);
+  --color-foreground: hsl(222 84% 5%);
+
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(222 84% 5%);
+
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(222 84% 5%);
+
+  --color-secondary: hsl(210 40% 96%);
+  --color-secondary-foreground: hsl(222 47% 11%);
+
+  --color-muted: hsl(210 40% 96%);
+  --color-muted-foreground: hsl(215 16% 47%);
+
+  --color-accent: hsl(210 40% 96%);
+  --color-accent-foreground: hsl(222 47% 11%);
+
+  --color-destructive: hsl(0 84% 60%);
+  --color-destructive-foreground: hsl(210 40% 98%);
+
+  --color-border: hsl(214 32% 91%);
+  --color-input: hsl(214 32% 91%);
+  --color-ring: hsl(162 73% 24%);
+
+  /* Category palette — used in charts and badges */
+  --color-cat-food: #1d9e75;
+  --color-cat-transport: #3b8bd4;
+  --color-cat-shopping: #ef9f27;
+  --color-cat-health: #e24b4a;
+  --color-cat-entertainment: #7f77dd;
+  --color-cat-bills: #d85a30;
+  --color-cat-salary: #639922;
+  --color-cat-other: #888780;
+
+  /* Radii */
+  --radius: 0.5rem;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* Dark mode overrides */
+@media (prefers-color-scheme: dark) {
+  @theme {
+    --color-background: hsl(222 84% 5%);
+    --color-foreground: hsl(210 40% 98%);
+
+    --color-card: hsl(222 84% 5%);
+    --color-card-foreground: hsl(210 40% 98%);
+
+    --color-popover: hsl(222 84% 5%);
+    --color-popover-foreground: hsl(210 40% 98%);
+
+    --color-primary: hsl(162 55% 45%);
+    --color-primary-foreground: hsl(222 84% 5%);
+
+    --color-secondary: hsl(217 33% 17%);
+    --color-secondary-foreground: hsl(210 40% 98%);
+
+    --color-muted: hsl(217 33% 17%);
+    --color-muted-foreground: hsl(215 20% 65%);
+
+    --color-accent: hsl(217 33% 17%);
+    --color-accent-foreground: hsl(210 40% 98%);
+
+    --color-destructive: hsl(0 63% 31%);
+    --color-destructive-foreground: hsl(210 40% 98%);
+
+    --color-border: hsl(217 33% 17%);
+    --color-input: hsl(217 33% 17%);
+    --color-ring: hsl(162 55% 45%);
+  }
+}
+
+/* ── Base styles ─────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+/* ── Native <select> option contrast fix ────────────────────────────────── */
+/* Browsers largely ignore CSS variables on <option>; set explicit colors    */
+/* so the dropdown list is readable in both light and dark system themes.    */
+select option {
+  background-color: #0d1117;
+  color: #f0f6fc;
+}
+
+/* ── Skip link (keyboard / screen-reader a11y) ───────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -9999px;
+  left: 0.5rem;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.skip-link:focus-visible {
+  top: 0.5rem;
+}
+
+/* ── Focus visible ───────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+/* ── Respect reduced-motion preference ──────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
