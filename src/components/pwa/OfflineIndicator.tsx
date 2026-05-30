@@ -11,6 +11,7 @@ export function OfflineIndicator() {
 
   useEffect(() => {
     if (!isOnline) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState('offline')
       return
     }

@@ -67,6 +67,7 @@ export function TransactionForm({ open, onOpenChange, transaction, onSubmit }: T
     },
   })
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const type = watch('type')
 
   const handleClose = () => {

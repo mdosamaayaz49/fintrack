@@ -14,12 +14,11 @@ interface PWAInstall {
 
 export function usePWAInstall(): PWAInstall {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
-  const [isInstalled, setIsInstalled] = useState(false)
+  const [isInstalled, setIsInstalled] = useState(() => typeof window !== 'undefined' && window.matchMedia('(display-mode: standalone)').matches)
 
   useEffect(() => {
     // Detect standalone mode (already installed)
     const mq = window.matchMedia('(display-mode: standalone)')
-    setIsInstalled(mq.matches)
 
     const handleChange = (e: MediaQueryListEvent) => setIsInstalled(e.matches)
     mq.addEventListener('change', handleChange)

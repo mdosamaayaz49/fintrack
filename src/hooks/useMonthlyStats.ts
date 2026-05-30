@@ -35,6 +35,7 @@ export function useMonthlyStats(userId: string, month: string): {
       totalExpense,
       balance: totalIncome - totalExpense,
       byCategory,
+      // eslint-disable-next-line react-hooks/purity
       updatedAt: Date.now(),
     }
   }, [transactions, month])

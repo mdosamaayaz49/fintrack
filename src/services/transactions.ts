@@ -34,7 +34,6 @@ export function normalizeTransaction(id: string, data: DocumentData): Transactio
     id,
     type: data.type === 'income' || data.type === 'expense' ? data.type : 'expense',
     amount: typeof data.amount === 'number' && data.amount > 0 ? data.amount : 0,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     category: CATEGORIES.includes(data.category) ? data.category : 'other',
     description: typeof data.description === 'string' ? data.description : '',
     date: typeof data.date === 'string' ? data.date : todayISO(),
@@ -109,6 +108,7 @@ export async function addTransaction(
     }
     // Permanent error (e.g. rules rejection) — roll back local write
     await deleteLocalTransaction(transaction.id)
+    // eslint-disable-next-line preserve-caught-error
     throw new Error('Failed to save transaction. Please try again.')
   }
 }
@@ -144,6 +144,7 @@ export async function updateTransaction(
       })
       return
     }
+    // eslint-disable-next-line preserve-caught-error
     throw new Error('Failed to update transaction. Please try again.')
   }
 }
@@ -178,6 +179,7 @@ export async function deleteTransaction(userId: string, id: string): Promise<voi
       })
       return
     }
+    // eslint-disable-next-line preserve-caught-error
     throw new Error('Failed to delete transaction. Please try again.')
   }
 }

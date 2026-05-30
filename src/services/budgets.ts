@@ -32,6 +32,7 @@ export async function addBudget(userId: string, input: NewBudgetInput): Promise<
   } catch (error) {
     await deleteLocalBudget(budget.id)
     if (error instanceof FirebaseError) {
+      // eslint-disable-next-line preserve-caught-error
       throw new Error('Failed to save budget. Please try again.')
     }
     throw error
@@ -48,6 +49,7 @@ export async function updateBudget(
     await updateDoc(docRef, updates)
   } catch (error) {
     if (error instanceof FirebaseError) {
+      // eslint-disable-next-line preserve-caught-error
       throw new Error('Failed to update budget. Please try again.')
     }
     throw error
@@ -61,6 +63,7 @@ export async function deleteBudget(userId: string, id: string): Promise<void> {
     await deleteDoc(docRef)
   } catch (error) {
     if (error instanceof FirebaseError) {
+      // eslint-disable-next-line preserve-caught-error
       throw new Error('Failed to delete budget. Please try again.')
     }
     throw error

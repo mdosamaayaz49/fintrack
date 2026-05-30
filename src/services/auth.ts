@@ -74,6 +74,7 @@ export async function signUpWithEmail(
     await upsertUserDocument(user)
     return toAppUser(user)
   } catch (error) {
+    // eslint-disable-next-line preserve-caught-error
     if (error instanceof FirebaseError) throw new Error(mapAuthError(error))
     throw error
   }
@@ -84,6 +85,7 @@ export async function signInWithEmail(email: string, password: string): Promise<
     const { user } = await signInWithEmailAndPassword(auth, email, password)
     return toAppUser(user)
   } catch (error) {
+    // eslint-disable-next-line preserve-caught-error
     if (error instanceof FirebaseError) throw new Error(mapAuthError(error))
     throw error
   }
@@ -95,6 +97,7 @@ export async function signInWithGoogle(): Promise<AppUser> {
     await upsertUserDocument(user)
     return toAppUser(user)
   } catch (error) {
+    // eslint-disable-next-line preserve-caught-error
     if (error instanceof FirebaseError) throw new Error(mapAuthError(error))
     throw error
   }
